@@ -1,0 +1,35 @@
+package wzbox
+
+import (
+	"bytes"
+	"compress/gzip"
+	"io/ioutil"
+)
+
+// MyStruct data container
+type MyStruct struct {
+	compressed bool
+	data       map[string][]byte
+}
+
+// NewMyStruct creates a new instance of MyStruct
+func NewMyStruct() *MyStruct {
+	cnt := new(MyStruct)
+	cnt.compressed = true
+	cnt.data = map[string][]byte{
+		"someshit": {64, 60},
+	}
+	return cnt
+}
+
+// Get file content
+func (cnt *MyStruct) Get(name string) []byte {
+	content := cnt.data[name]
+	if cnt.compressed {
+		gz, _ := gzip.NewReader(bytes.NewReader(content))
+		defer gz.Close()
+		content, _ = ioutil.ReadAll(gz)
+	}
+
+	return content
+}
