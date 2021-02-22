@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/urfave/cli/v2"
-	"gitlab.com/infra-whizz/wzbox"
+	"github.com/infra-whizz/wzbox"
 )
 
 func app(c *cli.Context) error {

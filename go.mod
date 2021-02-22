@@ -1,4 +1,4 @@
-module gitlab.com/infra-whizz/wzbox
+module github.com/infra-whizz/wzbox
 
 go 1.15
 
