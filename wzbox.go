@@ -90,9 +90,10 @@ func (wzb *WzBox) createSources() string {
 	var out bytes.Buffer
 
 	out.WriteString(fmt.Sprintf("package %s\n\n", wzb.packageName))
+	out.WriteString("import (\n\t\"bytes\"\n\t\"compress/gzip\"\n\t\"io/ioutil\"\n)\n\n")
 	out.WriteString(fmt.Sprintf("// %s data container\ntype %s struct {\n\tcompressed bool\n\tdata       map[string][]byte\n}\n",
 		wzb.structName, wzb.structName))
-	out.WriteString(fmt.Sprintf("\n\n// New%s creates a new instance of %s\nfunc New%s() *%s {\n\tcnt := new(%s)\n",
+	out.WriteString(fmt.Sprintf("\n// New%s creates a new instance of %s\nfunc New%s() *%s {\n\tcnt := new(%s)\n",
 		wzb.structName, wzb.structName, wzb.structName, wzb.structName, wzb.structName))
 
 	if wzb.compressed {
