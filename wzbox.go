@@ -109,22 +109,24 @@ func (wzb *WzBox) createSources() string {
 		for idx, c := range fdata {
 			arr.WriteString(fmt.Sprintf("%d", int(c)))
 			if idx < l {
-				arr.WriteString(", ")
+				arr.WriteString(",")
 			}
 			w++
 			if w > 10 {
 				w = 0
 				arr.WriteString("\n\t\t\t")
+			} else if idx+1 < l {
+				arr.WriteString(" ") // space after previous comma
 			}
 		}
 		out.WriteString(fmt.Sprintf("\t\t\"%s\": {\n\t\t\t%s\n\t\t},", fname, arr.String()))
 	}
 
-	out.WriteString("\t\n\t}\n\treturn cnt\n}")
-	out.WriteString(fmt.Sprintf("\n\n// Get file content\n"))
+	out.WriteString("\n\t}\n\treturn cnt\n}")
+	out.WriteString("\n\n// Get file content\n")
 	out.WriteString(fmt.Sprintf("func (cnt *%s) Get(name string) []byte {\n\tcontent := cnt.data[name]\n", wzb.structName))
-	out.WriteString(fmt.Sprintf("\tif cnt.compressed {\n\t\tgz, _ := gzip.NewReader(bytes.NewReader(content))\n"))
-	out.WriteString(fmt.Sprintf("\t\tdefer gz.Close()\n\t\tcontent, _ = ioutil.ReadAll(gz)\n\t}\n\n\treturn content\n}\n"))
+	out.WriteString("\tif cnt.compressed {\n\t\tgz, _ := gzip.NewReader(bytes.NewReader(content))\n")
+	out.WriteString("\t\tdefer gz.Close()\n\t\tcontent, _ = ioutil.ReadAll(gz)\n\t}\n\n\treturn content\n}\n")
 
 	return out.String()
 }
